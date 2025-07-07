@@ -1,11 +1,11 @@
 // YouTube to MP3 Converter API
-// Updated with the working implementation
+// Updated with your new API subscription
 
 import axios from 'axios';
 
 class YouTubeMP3API {
   constructor() {
-    this.apiKey = '65560d6fd6msha21d1fb7df6c45cp165b1djsn3b50ced25f83';
+    this.apiKey = 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde';
     this.apiHost = 'youtube-mp36.p.rapidapi.com';
     this.baseURL = 'https://youtube-mp36.p.rapidapi.com';
   }
@@ -22,7 +22,7 @@ class YouTubeMP3API {
   }
 
   /**
-   * Convert YouTube video to MP3 using the working API implementation
+   * Convert YouTube video to MP3 using axios (your preferred method)
    * @param {string} videoUrl - YouTube URL or video ID
    * @returns {Promise<Object>} - API response with download link
    */
@@ -35,7 +35,7 @@ class YouTubeMP3API {
         url: 'https://youtube-mp36.p.rapidapi.com/dl',
         params: { id: videoId },
         headers: {
-          'x-rapidapi-key': '65560d6fd6msha21d1fb7df6c45cp165b1djsn3b50ced25f83',
+          'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
           'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
         }
       };
@@ -71,6 +71,59 @@ class YouTubeMP3API {
   }
 
   /**
+   * Convert YouTube video to MP3 using XMLHttpRequest (alternative method)
+   * @param {string} videoUrl - YouTube URL or video ID
+   * @returns {Promise<Object>} - API response with download link
+   */
+  async convertToMP3WithXHR(videoUrl) {
+    return new Promise((resolve) => {
+      const videoId = this.extractVideoId(videoUrl);
+      
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener('readystatechange', function () {
+        if (this.readyState === this.DONE) {
+          try {
+            const responseData = JSON.parse(this.responseText);
+            
+            if (responseData.status === 'ok') {
+              resolve({
+                success: true,
+                data: {
+                  title: responseData.title,
+                  link: responseData.link,
+                  duration: responseData.duration,
+                  progress: responseData.progress,
+                  status: responseData.status
+                }
+              });
+            } else {
+              resolve({
+                success: false,
+                error: 'Conversion failed. Please try again.',
+                details: responseData
+              });
+            }
+          } catch (error) {
+            resolve({
+              success: false,
+              error: 'Failed to parse response',
+              details: error.message
+            });
+          }
+        }
+      });
+
+      xhr.open('GET', `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`);
+      xhr.setRequestHeader('x-rapidapi-key', 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde');
+      xhr.setRequestHeader('x-rapidapi-host', 'youtube-mp36.p.rapidapi.com');
+
+      xhr.send(null);
+    });
+  }
+
+  /**
    * Get video information without converting
    * @param {string} videoUrl - YouTube URL or video ID
    * @returns {Promise<Object>} - Video information
@@ -84,7 +137,7 @@ class YouTubeMP3API {
         url: 'https://youtube-mp36.p.rapidapi.com/dl',
         params: { id: videoId },
         headers: {
-          'x-rapidapi-key': '65560d6fd6msha21d1fb7df6c45cp165b1djsn3b50ced25f83',
+          'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
           'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
         }
       };

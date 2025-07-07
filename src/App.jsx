@@ -27,7 +27,7 @@ function App() {
       url: 'https://youtube-mp36.p.rapidapi.com/dl',
       params: { id },
       headers: {
-        'x-rapidapi-key': '65560d6fd6msha21d1fb7df6c45cp165b1djsn3b50ced25f83',
+        'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
         'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com',
       },
     };
