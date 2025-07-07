@@ -6,161 +6,57 @@
 }
 
 .converter-container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  color: white;
-  margin-bottom: 2rem;
-}
-
-.converter-container h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.converter-container p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
+  background-color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .input-group {
   display: flex;
   gap: 1rem;
   margin: 2rem 0;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .url-input {
   flex: 1;
-  padding: 1rem;
-  border-radius: 10px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #333;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.url-input:focus {
-  background-color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 0.8rem;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background-color: #2a2a2a;
+  color: white;
 }
 
 .convert-button, .download-button {
-  padding: 1rem 2rem;
-  border-radius: 10px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
   border: none;
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  background-color: #646cff;
   color: white;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
+  transition: background-color 0.3s;
 }
 
 .convert-button:hover, .download-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+  background-color: #535bf2;
 }
 
 .convert-button:disabled {
-  background: #666;
+  background-color: #4a4a4a;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 .error-message {
-  background: rgba(255, 107, 107, 0.2);
-  color: #ff6b6b;
-  padding: 1rem;
-  border-radius: 10px;
+  color: #ff4444;
   margin: 1rem 0;
-  border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-.video-info {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin: 1.5rem 0;
-  text-align: left;
-  backdrop-filter: blur(10px);
-}
-
-.video-info h3 {
-  margin-top: 0;
-  color: #fff;
-}
-
-.video-info p {
-  margin: 0.5rem 0;
-  opacity: 0.9;
 }
 
 .download-section {
-  background: rgba(46, 213, 115, 0.2);
-  padding: 2rem;
-  border-radius: 15px;
-  margin: 2rem 0;
-  border: 1px solid rgba(46, 213, 115, 0.3);
-}
-
-.download-section p {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: #2ed573;
+  margin-top: 2rem;
 }
 
 .download-button {
-  background: linear-gradient(45deg, #2ed573, #1e90ff);
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-}
-
-.instructions {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
-  border-radius: 15px;
-  margin-top: 2rem;
-  text-align: left;
-  backdrop-filter: blur(10px);
-}
-
-.instructions h3 {
-  color: #fff;
-  margin-bottom: 1rem;
-}
-
-.instructions ol {
-  padding-left: 1.5rem;
-}
-
-.instructions li {
-  margin: 0.5rem 0;
-  opacity: 0.9;
-}
-
-@media (max-width: 768px) {
-  .input-group {
-    flex-direction: column;
-  }
-  
-  .converter-container {
-    padding: 2rem 1rem;
-  }
-  
-  .converter-container h1 {
-    font-size: 2rem;
-  }
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 1rem;
 }
