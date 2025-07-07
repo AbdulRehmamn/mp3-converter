@@ -24,18 +24,22 @@ function App() {
 
     const options = {
       method: 'GET',
-      url: 'https://youtube-mp36.p.rapidapi.com/dl',
-      params: { id },
+      url: 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio',
+      params: { 
+        id,
+        ext: 'm4a',
+        quality: '128kbps'
+      },
       headers: {
-        'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
-        'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com',
+        'x-rapidapi-key': '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc',
+        'x-rapidapi-host': 'youtube-mp3-2025.p.rapidapi.com',
       },
     };
 
     try {
       const response = await axios.request(options);
-      if (response.data.status === 'ok') {
-        setDownloadLink(response.data.link);
+      if (response.data && response.data.download_url) {
+        setDownloadLink(response.data.download_url);
       } else {
         setError('Conversion failed. Please try again.');
       }

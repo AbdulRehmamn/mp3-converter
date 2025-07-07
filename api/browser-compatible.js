@@ -3,8 +3,8 @@
 
 class YouTubeMP3BrowserAPI {
   constructor() {
-    this.apiKey = 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde';
-    this.apiHost = 'youtube-mp36.p.rapidapi.com';
+    this.apiKey = '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc';
+    this.apiHost = 'youtube-mp3-2025.p.rapidapi.com';
   }
 
   /**
@@ -35,15 +35,15 @@ class YouTubeMP3BrowserAPI {
           try {
             const responseData = JSON.parse(this.responseText);
             
-            if (this.status === 200 && responseData.status === 'ok') {
+            if (this.status === 200 && responseData.download_url) {
               resolve({
                 success: true,
                 data: {
-                  title: responseData.title,
-                  link: responseData.link,
+                  title: responseData.title || 'Unknown Title',
+                  link: responseData.download_url,
                   duration: responseData.duration,
-                  progress: responseData.progress,
-                  status: responseData.status
+                  quality: responseData.quality || '128kbps',
+                  format: responseData.ext || 'm4a'
                 }
               });
             } else {
@@ -84,7 +84,7 @@ class YouTubeMP3BrowserAPI {
         });
       });
 
-      xhr.open('GET', `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`);
+      xhr.open('GET', `https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio?id=${videoId}&ext=m4a&quality=128kbps`);
       xhr.setRequestHeader('x-rapidapi-key', this.apiKey);
       xhr.setRequestHeader('x-rapidapi-host', this.apiHost);
       xhr.timeout = 30000; // 30 second timeout
