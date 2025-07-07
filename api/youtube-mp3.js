@@ -1,13 +1,13 @@
 // YouTube to MP3 Converter API
-// Updated with your new API subscription
+// Updated with your API subscription
 
 import axios from 'axios';
 
 class YouTubeMP3API {
   constructor() {
-    this.apiKey = '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc';
-    this.apiHost = 'youtube-mp3-2025.p.rapidapi.com';
-    this.baseURL = 'https://youtube-mp3-2025.p.rapidapi.com';
+    this.apiKey = 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde';
+    this.apiHost = 'youtube-mp36.p.rapidapi.com';
+    this.baseURL = 'https://youtube-mp36.p.rapidapi.com';
   }
 
   /**
@@ -32,29 +32,25 @@ class YouTubeMP3API {
       
       const options = {
         method: 'GET',
-        url: 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio',
-        params: { 
-          id: videoId,
-          ext: 'm4a',
-          quality: '128kbps'
-        },
+        url: 'https://youtube-mp36.p.rapidapi.com/dl',
+        params: { id: videoId },
         headers: {
-          'x-rapidapi-key': '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc',
-          'x-rapidapi-host': 'youtube-mp3-2025.p.rapidapi.com'
+          'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
+          'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
         }
       };
 
       const response = await axios.request(options);
       
-      if (response.data && response.data.download_url) {
+      if (response.data.status === 'ok') {
         return {
           success: true,
           data: {
-            title: response.data.title || 'Unknown Title',
-            link: response.data.download_url,
+            title: response.data.title,
+            link: response.data.link,
             duration: response.data.duration,
-            quality: response.data.quality || '128kbps',
-            format: response.data.ext || 'm4a'
+            progress: response.data.progress,
+            status: response.data.status
           }
         };
       } else {
@@ -91,15 +87,15 @@ class YouTubeMP3API {
           try {
             const responseData = JSON.parse(this.responseText);
             
-            if (responseData && responseData.download_url) {
+            if (responseData.status === 'ok') {
               resolve({
                 success: true,
                 data: {
-                  title: responseData.title || 'Unknown Title',
-                  link: responseData.download_url,
+                  title: responseData.title,
+                  link: responseData.link,
                   duration: responseData.duration,
-                  quality: responseData.quality || '128kbps',
-                  format: responseData.ext || 'm4a'
+                  progress: responseData.progress,
+                  status: responseData.status
                 }
               });
             } else {
@@ -119,9 +115,9 @@ class YouTubeMP3API {
         }
       });
 
-      xhr.open('GET', `https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio?id=${videoId}&ext=m4a&quality=128kbps`);
-      xhr.setRequestHeader('x-rapidapi-key', '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc');
-      xhr.setRequestHeader('x-rapidapi-host', 'youtube-mp3-2025.p.rapidapi.com');
+      xhr.open('GET', `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`);
+      xhr.setRequestHeader('x-rapidapi-key', 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde');
+      xhr.setRequestHeader('x-rapidapi-host', 'youtube-mp36.p.rapidapi.com');
 
       xhr.send(null);
     });
@@ -138,15 +134,11 @@ class YouTubeMP3API {
       
       const options = {
         method: 'GET',
-        url: 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio',
-        params: { 
-          id: videoId,
-          ext: 'm4a',
-          quality: '128kbps'
-        },
+        url: 'https://youtube-mp36.p.rapidapi.com/dl',
+        params: { id: videoId },
         headers: {
-          'x-rapidapi-key': '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc',
-          'x-rapidapi-host': 'youtube-mp3-2025.p.rapidapi.com'
+          'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
+          'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
         }
       };
 

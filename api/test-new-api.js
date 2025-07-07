@@ -1,7 +1,7 @@
-// Test script using your new API subscription
+// Test script using your API subscription
 import axios from 'axios';
 
-console.log('🧪 Testing your new API subscription...\n');
+console.log('🧪 Testing your API subscription...\n');
 
 // Test 1: Your exact axios implementation
 async function testAxiosImplementation() {
@@ -10,15 +10,11 @@ async function testAxiosImplementation() {
   
   const options = {
     method: 'GET',
-    url: 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio',
-    params: {
-      id: 'gCNyKksha2A',
-      ext: 'm4a',
-      quality: '128kbps'
-    },
+    url: 'https://youtube-mp36.p.rapidapi.com/dl',
+    params: {id: 'UxxajLWwzqY'},
     headers: {
-      'x-rapidapi-key': '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc',
-      'x-rapidapi-host': 'youtube-mp3-2025.p.rapidapi.com'
+      'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
+      'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
     }
   };
 
@@ -58,9 +54,9 @@ async function testXHRImplementation() {
       }
     });
 
-    xhr.open('GET', 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio?id=gCNyKksha2A&ext=m4a&quality=128kbps');
-    xhr.setRequestHeader('x-rapidapi-key', '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc');
-    xhr.setRequestHeader('x-rapidapi-host', 'youtube-mp3-2025.p.rapidapi.com');
+    xhr.open('GET', 'https://youtube-mp36.p.rapidapi.com/dl?id=UxxajLWwzqY');
+    xhr.setRequestHeader('x-rapidapi-key', 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde');
+    xhr.setRequestHeader('x-rapidapi-host', 'youtube-mp36.p.rapidapi.com');
 
     xhr.send(null);
   });
@@ -75,7 +71,7 @@ async function testAPIClass() {
   const api = new YouTubeMP3API();
   
   try {
-    const result = await api.convertToMP3('gCNyKksha2A');
+    const result = await api.convertToMP3('UxxajLWwzqY');
     
     if (result.success) {
       console.log('✅ API Class test successful!');

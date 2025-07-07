@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import axios from 'axios';
 import AdBanner728x90 from './Components/AdBanner728x90';
 
 function App() {
@@ -23,62 +24,33 @@ function App() {
 
     const videoId = extractVideoId(videoUrl);
 
-    try {
-      // Using a working YouTube to MP3 API
-      const response = await fetch(`https://youtube-mp3-download1.p.rapidapi.com/dl?id=${videoId}`, {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': 'demo-key', // Using demo for now
-          'X-RapidAPI-Host': 'youtube-mp3-download1.p.rapidapi.com'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    const options = {
+      method: 'GET',
+      url: 'https://youtube-mp36.p.rapidapi.com/dl',
+      params: { id: videoId },
+      headers: {
+        'x-rapidapi-key': 'f1cfc6624amshc1f7a8bfd6d6077p1623c3jsn944853391dde',
+        'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
       }
+    };
 
-      const data = await response.json();
+    try {
+      const response = await axios.request(options);
       
-      if (data.status === 'ok' && data.link) {
-        setDownloadLink(data.link);
+      if (response.data.status === 'ok') {
+        setDownloadLink(response.data.link);
         setVideoInfo({
-          title: data.title || 'Unknown Title',
-          duration: data.duration || 'Unknown',
-          filesize: data.filesize || 'Unknown'
+          title: response.data.title || 'Unknown Title',
+          duration: response.data.duration || 'Unknown',
+          progress: response.data.progress || 100,
+          status: response.data.status
         });
       } else {
-        // Fallback to alternative method using yt-dlp style API
-        const fallbackResponse = await fetch(`https://api.cobalt.tools/api/json`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            url: `https://www.youtube.com/watch?v=${videoId}`,
-            vCodec: 'h264',
-            vQuality: '720',
-            aFormat: 'mp3',
-            isAudioOnly: true
-          })
-        });
-
-        const fallbackData = await fallbackResponse.json();
-        
-        if (fallbackData.status === 'success' && fallbackData.url) {
-          setDownloadLink(fallbackData.url);
-          setVideoInfo({
-            title: 'Converted Audio',
-            duration: 'Unknown',
-            filesize: 'Unknown'
-          });
-        } else {
-          setError('Conversion failed. Please try with a different video or try again later.');
-        }
+        setError('Conversion failed. Please try again.');
       }
     } catch (err) {
-      console.error('Conversion error:', err);
-      setError('An error occurred during conversion. Please check the URL and try again.');
+      setError('An error occurred. Please try again later.');
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -95,7 +67,7 @@ function App() {
             type="text"
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
-            placeholder="Enter YouTube URL (e.g., https://www.youtube.com/watch?v=...)"
+            placeholder="Enter YouTube URL or Video ID"
             className="url-input"
           />
           <button
@@ -114,7 +86,8 @@ function App() {
             <h3>Video Information:</h3>
             <p><strong>Title:</strong> {videoInfo.title}</p>
             <p><strong>Duration:</strong> {videoInfo.duration}</p>
-            <p><strong>File Size:</strong> {videoInfo.filesize}</p>
+            <p><strong>Status:</strong> {videoInfo.status}</p>
+            <p><strong>Progress:</strong> {videoInfo.progress}%</p>
           </div>
         )}
 
