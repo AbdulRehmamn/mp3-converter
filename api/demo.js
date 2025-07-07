@@ -8,9 +8,10 @@ async function demonstrateAPI() {
 
   // Example YouTube URLs to test
   const testUrls = [
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Rick Roll
-    'dQw4w9WgXcQ', // Just the video ID
-    'https://youtu.be/dQw4w9WgXcQ' // Short URL format
+    'https://www.youtube.com/watch?v=jNQXAC9IVRw', // Popular music video
+    'jNQXAC9IVRw', // Just the video ID
+    'https://youtu.be/jNQXAC9IVRw', // Short URL format
+    'https://www.youtube.com/watch?v=dQw4w9WgXcQ' // Rick Roll (might be restricted)
   ];
 
   for (const url of testUrls) {
@@ -20,6 +21,12 @@ async function demonstrateAPI() {
     // Extract video ID
     const videoId = api.extractVideoId(url);
     console.log(`📋 Extracted Video ID: ${videoId}`);
+    
+    // Validate video ID
+    if (!api.isValidVideoId(videoId)) {
+      console.log('❌ Invalid video ID format');
+      continue;
+    }
 
     // Convert to MP3
     console.log('🔄 Converting to MP3...');
@@ -34,11 +41,13 @@ async function demonstrateAPI() {
     } else {
       console.log('❌ Conversion failed');
       console.log(`🚫 Error: ${result.error}`);
-      console.log('🔍 Details:', result.details);
+      if (result.details) {
+        console.log('🔍 Details:', result.details);
+      }
     }
 
     // Add delay between requests to be respectful to the API
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
   }
 }
 

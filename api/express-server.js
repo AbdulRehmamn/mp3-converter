@@ -32,20 +32,25 @@ app.get('/convert', async (req, res) => {
   if (!url && !id) {
     return res.status(400).json({
       success: false,
-      error: 'Please provide either "url" or "id" parameter'
+      error: 'Please provide either "url" or "id" parameter',
+      example: '/convert?url=https://www.youtube.com/watch?v=VIDEO_ID'
     });
   }
 
   try {
     const videoUrl = url || id;
+    console.log(`Processing conversion request for: ${videoUrl}`);
     const result = await api.convertToMP3(videoUrl);
     
     if (result.success) {
+      console.log('✅ Conversion successful');
       res.json(result);
     } else {
+      console.log('❌ Conversion failed:', result.error);
       res.status(400).json(result);
     }
   } catch (error) {
+    console.error('Server error:', error);
     res.status(500).json({
       success: false,
       error: 'Internal server error',
@@ -67,14 +72,18 @@ app.post('/convert', async (req, res) => {
 
   try {
     const videoUrl = url || id;
+    console.log(`Processing POST conversion request for: ${videoUrl}`);
     const result = await api.convertToMP3(videoUrl);
     
     if (result.success) {
+      console.log('✅ POST Conversion successful');
       res.json(result);
     } else {
+      console.log('❌ POST Conversion failed:', result.error);
       res.status(400).json(result);
     }
   } catch (error) {
+    console.error('POST Server error:', error);
     res.status(500).json({
       success: false,
       error: 'Internal server error',
