@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 import AdBanner728x90 from './Components/AdBanner728x90';
 
-function App() {
+export default function App() {
   const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -122,5 +122,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
