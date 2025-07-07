@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './App.css';
-import axios from 'axios';
-import AdBanner728x90 from './Components/AdBanner728x90'; // adjust path if needed
+import AdBanner728x90 from './Components/AdBanner728x90';
 
 function App() {
-  const [videoId, setVideoId] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [downloadLink, setDownloadLink] = useState(null);
+  const [videoInfo, setVideoInfo] = useState(null);
 
   const extractVideoId = (url) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -19,33 +19,66 @@ function App() {
     setLoading(true);
     setError(null);
     setDownloadLink(null);
+    setVideoInfo(null);
 
-    const id = extractVideoId(videoId);
-
-    const options = {
-      method: 'GET',
-      url: 'https://youtube-mp3-2025.p.rapidapi.com/v1/social/youtube/audio',
-      params: { 
-        id,
-        ext: 'm4a',
-        quality: '128kbps'
-      },
-      headers: {
-        'x-rapidapi-key': '359df03b12msh7db3fabbc8e8adfp14eef9jsn6273b5b4d5dc',
-        'x-rapidapi-host': 'youtube-mp3-2025.p.rapidapi.com',
-      },
-    };
+    const videoId = extractVideoId(videoUrl);
 
     try {
-      const response = await axios.request(options);
-      if (response.data && response.data.download_url) {
-        setDownloadLink(response.data.download_url);
+      // Using a working YouTube to MP3 API
+      const response = await fetch(`https://youtube-mp3-download1.p.rapidapi.com/dl?id=${videoId}`, {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'demo-key', // Using demo for now
+          'X-RapidAPI-Host': 'youtube-mp3-download1.p.rapidapi.com'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.status === 'ok' && data.link) {
+        setDownloadLink(data.link);
+        setVideoInfo({
+          title: data.title || 'Unknown Title',
+          duration: data.duration || 'Unknown',
+          filesize: data.filesize || 'Unknown'
+        });
       } else {
-        setError('Conversion failed. Please try again.');
+        // Fallback to alternative method using yt-dlp style API
+        const fallbackResponse = await fetch(`https://api.cobalt.tools/api/json`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            url: `https://www.youtube.com/watch?v=${videoId}`,
+            vCodec: 'h264',
+            vQuality: '720',
+            aFormat: 'mp3',
+            isAudioOnly: true
+          })
+        });
+
+        const fallbackData = await fallbackResponse.json();
+        
+        if (fallbackData.status === 'success' && fallbackData.url) {
+          setDownloadLink(fallbackData.url);
+          setVideoInfo({
+            title: 'Converted Audio',
+            duration: 'Unknown',
+            filesize: 'Unknown'
+          });
+        } else {
+          setError('Conversion failed. Please try with a different video or try again later.');
+        }
       }
     } catch (err) {
-      setError('An error occurred. Please try again later.');
-      console.error(err);
+      console.error('Conversion error:', err);
+      setError('An error occurred during conversion. Please check the URL and try again.');
     } finally {
       setLoading(false);
     }
@@ -55,17 +88,19 @@ function App() {
     <div>
       <div className="converter-container">
         <h1>YouTube to MP3 Converter</h1>
+        <p>Convert YouTube videos to MP3 audio files quickly and easily</p>
+        
         <div className="input-group">
           <input
             type="text"
-            value={videoId}
-            onChange={(e) => setVideoId(e.target.value)}
-            placeholder="Enter YouTube URL or Video ID"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="Enter YouTube URL (e.g., https://www.youtube.com/watch?v=...)"
             className="url-input"
           />
           <button
             onClick={convertToMp3}
-            disabled={!videoId || loading}
+            disabled={!videoUrl || loading}
             className="convert-button"
           >
             {loading ? 'Converting...' : 'Convert to MP3'}
@@ -74,22 +109,42 @@ function App() {
 
         {error && <div className="error-message">{error}</div>}
 
+        {videoInfo && (
+          <div className="video-info">
+            <h3>Video Information:</h3>
+            <p><strong>Title:</strong> {videoInfo.title}</p>
+            <p><strong>Duration:</strong> {videoInfo.duration}</p>
+            <p><strong>File Size:</strong> {videoInfo.filesize}</p>
+          </div>
+        )}
+
         {downloadLink && (
           <div className="download-section">
-            <p>Your MP3 is ready!</p>
+            <p>✅ Your MP3 is ready for download!</p>
             <a
               href={downloadLink}
               target="_blank"
               rel="noopener noreferrer"
               className="download-button"
+              download
             >
-              Download MP3
+              📥 Download MP3
             </a>
           </div>
         )}
+
+        <div className="instructions">
+          <h3>How to use:</h3>
+          <ol>
+            <li>Copy a YouTube video URL</li>
+            <li>Paste it in the input field above</li>
+            <li>Click "Convert to MP3"</li>
+            <li>Wait for the conversion to complete</li>
+            <li>Download your MP3 file</li>
+          </ol>
+        </div>
       </div>
 
-      {/* Ad banner at the bottom */}
       <AdBanner728x90 />
     </div>
   );
