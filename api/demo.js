@@ -6,12 +6,11 @@ const api = new YouTubeMP3API();
 async function demonstrateAPI() {
   console.log('🎵 YouTube to MP3 API Demo\n');
 
-  // Example YouTube URLs to test
+  // Test with the video ID you provided
   const testUrls = [
-    'https://www.youtube.com/watch?v=jNQXAC9IVRw', // Popular music video
-    'jNQXAC9IVRw', // Just the video ID
-    'https://youtu.be/jNQXAC9IVRw', // Short URL format
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ' // Rick Roll (might be restricted)
+    'UxxajLWwzqY', // Your test video ID
+    'https://www.youtube.com/watch?v=UxxajLWwzqY', // Full URL
+    'https://youtu.be/UxxajLWwzqY' // Short URL format
   ];
 
   for (const url of testUrls) {
@@ -21,12 +20,6 @@ async function demonstrateAPI() {
     // Extract video ID
     const videoId = api.extractVideoId(url);
     console.log(`📋 Extracted Video ID: ${videoId}`);
-    
-    // Validate video ID
-    if (!api.isValidVideoId(videoId)) {
-      console.log('❌ Invalid video ID format');
-      continue;
-    }
 
     // Convert to MP3
     console.log('🔄 Converting to MP3...');
@@ -41,15 +34,42 @@ async function demonstrateAPI() {
     } else {
       console.log('❌ Conversion failed');
       console.log(`🚫 Error: ${result.error}`);
-      if (result.details) {
-        console.log('🔍 Details:', result.details);
-      }
+      console.log('🔍 Details:', result.details);
     }
 
     // Add delay between requests to be respectful to the API
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
   }
 }
 
-// Run the demo
-demonstrateAPI().catch(console.error);
+// Test the exact implementation you provided
+async function testYourImplementation() {
+  console.log('\n🧪 Testing your exact implementation...\n');
+  
+  const options = {
+    method: 'GET',
+    url: 'https://youtube-mp36.p.rapidapi.com/dl',
+    params: {id: 'UxxajLWwzqY'},
+    headers: {
+      'x-rapidapi-key': '65560d6fd6msha21d1fb7df6c45cp165b1djsn3b50ced25f83',
+      'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log('✅ Direct API call successful!');
+    console.log('Response data:', response.data);
+  } catch (error) {
+    console.log('❌ Direct API call failed');
+    console.error(error);
+  }
+}
+
+// Run both tests
+async function runAllTests() {
+  await testYourImplementation();
+  await demonstrateAPI();
+}
+
+runAllTests().catch(console.error);
